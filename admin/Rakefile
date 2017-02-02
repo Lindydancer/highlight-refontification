@@ -2,6 +2,8 @@
 # Common tasks
 #
 
+require("../../../admin/rakehelper.rb")
+
 package = "highlight-refontification"
 
 desc "Generate README.md"

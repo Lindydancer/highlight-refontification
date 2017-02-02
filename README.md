@@ -1,7 +1,7 @@
 # highlight-refontification - Tool for font-lock developers
 
 *Author:* Anders Lindgren<br>
-*Version:* 0.0.1<br>
+*Version:* 0.0.2<br>
 *URL:* [https://github.com/Lindydancer/highlight-refontification](https://github.com/Lindydancer/highlight-refontification)<br>
 
 Minor mode that visualizes how font-lock refontifies a buffer.

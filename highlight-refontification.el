@@ -5,7 +5,7 @@
 ;; Author: Anders Lindgren
 ;; Keywords: faces, tools
 ;; Created: 2014-05-15
-;; Version: 0.0.1
+;; Version: 0.0.2
 ;; URL: https://github.com/Lindydancer/highlight-refontification
 
 ;; This program is free software: you can redistribute it and/or modify
@@ -218,7 +218,13 @@
       (highlight-refontification-font-lock-add-keywords)
     (highlight-refontification-font-lock-remove-keywords))
   (when font-lock-mode
-    (font-lock-fontify-buffer)))
+    ;; As of Emacs 25, `font-lock-fontify-buffer' is not legal to
+    ;; call, instead `font-lock-flush' should be used.
+    (if (fboundp 'font-lock-flush)
+        (font-lock-flush)
+      (when font-lock-mode
+        (with-no-warnings
+          (font-lock-fontify-buffer))))))
 
 
 (defun highlight-refontification-font-lock-add-keywords ()
