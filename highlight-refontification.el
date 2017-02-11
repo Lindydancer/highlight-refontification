@@ -1,11 +1,11 @@
-;;; highlight-refontification.el --- Tool for font-lock developers.
+;;; highlight-refontification.el --- Visualize font-lock refontification.
 
 ;; Copyright (C) 2014-2017 Anders Lindgren
 
 ;; Author: Anders Lindgren
 ;; Keywords: faces, tools
 ;; Created: 2014-05-15
-;; Version: 0.0.2
+;; Version: 0.0.3
 ;; URL: https://github.com/Lindydancer/highlight-refontification
 
 ;; This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,10 @@
 ;; that has been refontified.  When the buffer is modified, the
 ;; rainbow is updated.
 
+;; Screenshot:
+;;
+;; ![See doc/demo.png for screenshot](doc/demo.png)
+
 ;; Background:
 ;;
 ;; When you edit a file, font-lock mode recalculates syntax
@@ -47,7 +51,7 @@
 ;;
 ;; You can use this tool, for example, to:
 ;;
-;; - Investigate when font-lock makes Emacs slow. If a large region is
+;; - Investigate when font-lock makes Emacs slow.  If a large region is
 ;;   refontified for every character typed, could cause this.
 ;;
 ;; - Investigate why a font-lock rule sometimes work, sometimes
@@ -89,10 +93,10 @@
 ;;
 ;; Font Lock Studio lets you *single-step* Font Lock keywords --
 ;; matchers, highlights, and anchored rules, so that you can see what
-;; happens when a buffer is fontified. You can set *breakpoints* on or
-;; inside rules and *run* until one has been hit. When inside a rule,
-;; matches are *visualized* using a palette of background colors. The
-;; *explainer* can describe a rule in plain-text English. Tight
+;; happens when a buffer is fontified.  You can set *breakpoints* on or
+;; inside rules and *run* until one has been hit.  When inside a rule,
+;; matches are *visualized* using a palette of background colors.  The
+;; *explainer* can describe a rule in plain-text English.  Tight
 ;; integration with *Edebug* allows you to step into Lisp expressions
 ;; that are part of the Font Lock keywords.
 ;;
@@ -118,12 +122,12 @@
 ;; Faceup:
 ;;
 ;; Emacs is capable of highlighting buffers based on language-specific
-;; `font-lock' rules. This package makes it possible to perform
+;; `font-lock' rules.  This package makes it possible to perform
 ;; regression test for packages that provide font-lock rules.
 ;;
 ;; The underlying idea is to convert text with highlights ("faces")
 ;; into a plain text representation using the Faceup markup
-;; language. This language is semi-human readable, for example:
+;; language.  This language is semi-human readable, for example:
 ;;
 ;;     «k:this» is a keyword
 ;;
@@ -159,9 +163,15 @@
 ;;
 
 (defvar highlight-refontification-keywords
-  '((highlight-refontification-matcher)))
+  '((highlight-refontification-matcher))
+  "Font-lock keywords for `highlight-refontification-mode'.")
 
-(defvar highlight-refontification-index)
+(defvar highlight-refontification-index nil
+  "Current index into `highlight-refontification-colors'.
+
+This variable is incremented for each refontification.  When
+larger than the length of `highlight-refontification-colors', it
+is set to 0.")
 (make-variable-buffer-local 'highlight-refontification-index)
 
 (defvar highlight-refontification-colors '("chartreuse1"
@@ -171,12 +181,18 @@
                                            "grey85"
                                            "OliveDrab2"
                                            "Yellow")
-  "*List of colors to walk through.")
+  "List of colors `highlight-refontification-mode' cycles through.")
 
 (defun highlight-refontification-matcher (limit)
+  "Font-lock matcher for `highlight-refontification-mode'.
+
+As a side effect, this colors the background between point and
+LIMIT in a rainbow of colors, one color each time font-lock
+refontifies a region."
   (remove-overlays (point) limit 'highlight-refontification t)
   (let ((o (make-overlay (point) limit (current-buffer)))
         (color (highlight-refontification-next-color)))
+    ;; Exclude colors of neighbouring regions.
     (while (member color (list
                           (highlight-refontification-color-at (- (point) 1))
                           (highlight-refontification-color-at (+ limit 1))))
@@ -248,7 +264,7 @@
                                                            beg end)
   "List how font-lock would extend the region between BEG and END.
 
-BEG and END is the start and end of the area. When nil or
+BEG and END is the start and end of the area.  When nil or
 omitted, the current line is used.
 
 When called interactively, the region is used if visible and the
@@ -289,5 +305,12 @@ current line otherwise."
         (princ (format "Final: (beg=%d end=%d)\n"
                        font-lock-beg
                        font-lock-end)))))
+
+
+;; -------------------------------------------------------------------
+;; The end
+;;
+
+(provide 'highlight-refontification)
 
 ;;; highlight-refontification.el ends here

@@ -1,7 +1,7 @@
-# highlight-refontification - Tool for font-lock developers
+# highlight-refontification - Visualize font-lock refontification
 
 *Author:* Anders Lindgren<br>
-*Version:* 0.0.2<br>
+*Version:* 0.0.3<br>
 *URL:* [https://github.com/Lindydancer/highlight-refontification](https://github.com/Lindydancer/highlight-refontification)<br>
 
 Minor mode that visualizes how font-lock refontifies a buffer.
@@ -12,6 +12,10 @@ The background of the buffer is painted in a rainbow of colors,
 where each band in the rainbow represent a region of the buffer
 that has been refontified.  When the buffer is modified, the
 rainbow is updated.
+
+## Screenshot
+
+![See doc/demo.png for screenshot](doc/demo.png)
 
 ## Background
 
@@ -28,7 +32,7 @@ applied to region which is too small.
 
 You can use this tool, for example, to:
 
-- Investigate when font-lock makes Emacs slow. If a large region is
+- Investigate when font-lock makes Emacs slow.  If a large region is
   refontified for every character typed, could cause this.
 - Investigate why a font-lock rule sometimes work, sometimes
   doesn't.  One cause of this could be that the region starts in
@@ -66,10 +70,10 @@ highlighting rules).
 
 Font Lock Studio lets you *single-step* Font Lock keywords --
 matchers, highlights, and anchored rules, so that you can see what
-happens when a buffer is fontified. You can set *breakpoints* on or
-inside rules and *run* until one has been hit. When inside a rule,
-matches are *visualized* using a palette of background colors. The
-*explainer* can describe a rule in plain-text English. Tight
+happens when a buffer is fontified.  You can set *breakpoints* on or
+inside rules and *run* until one has been hit.  When inside a rule,
+matches are *visualized* using a palette of background colors.  The
+*explainer* can describe a rule in plain-text English.  Tight
 integration with *Edebug* allows you to step into Lisp expressions
 that are part of the Font Lock keywords.
 
@@ -93,12 +97,12 @@ font-lock keywords.
 ### [Faceup](https://github.com/Lindydancer/faceup)
 
 Emacs is capable of highlighting buffers based on language-specific
-`font-lock` rules. This package makes it possible to perform
+`font-lock` rules.  This package makes it possible to perform
 regression test for packages that provide font-lock rules.
 
 The underlying idea is to convert text with highlights ("faces")
 into a plain text representation using the Faceup markup
-language. This language is semi-human readable, for example:
+language.  This language is semi-human readable, for example:
 
     «k:this» is a keyword
 
