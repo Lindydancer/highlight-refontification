@@ -17,7 +17,7 @@
 
 ;; Demonstration of `highlight-refontification' mode.
 ;;
-;; When initially opened, font-lock highlights the code is sections.
+;; When initially opened, font-lock highlights the code in sections.
 ;;
 ;; Later, when edited, the edited line is updated.  After an idle
 ;; section, the remainder of the buffer is refontified in sections.

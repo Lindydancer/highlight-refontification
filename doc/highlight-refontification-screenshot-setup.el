@@ -1,4 +1,4 @@
-;; highlight-refontification-screenshot-setup.el --- prepare for screenshot.
+;; highlight-refontification-screenshot-setup.el --- Setup screenshot. -*- lexical-binding: t; -*-
 
 ;; Usage:
 ;;
